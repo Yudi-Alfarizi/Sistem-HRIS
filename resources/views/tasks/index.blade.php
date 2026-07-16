@@ -62,19 +62,32 @@
                                             <span class="text-warning">Pending</span>
                                         @elseif ($task->status == 'selesai')
                                             <span class="text-success">Selesai</span>
-                                        @elseif ($task->status == 'sedang dikerjakan')
-                                            <span class="text-info">Sedang Dikerjakan</span>
+                                        @elseif ($task->status == 'proses')
+                                            <span class="text-info">Proses</span>
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-info btn-sm me-2">Lihat</a>
+                                        <a href="{{ route('tasks.show', $task->id) }}"
+                                            class="btn btn-info btn-sm me-2">Lihat</a>
                                         @if ($task->status == 'pending')
-                                            <a href="" class="btn btn-success btn-sm me-2">Selesai</a>
+                                            <a href="{{ route('tasks.in-progress', $task->id) }}"
+                                                class="btn btn-info btn-sm me-2">Tandai Proses</a>
+                                        @elseif ($task->status == 'selesai')
+                                            <a href="{{ route('tasks.pending', $task->id) }}"
+                                                class="btn btn-warning btn-sm me-2">Tandai Pending</a>
                                         @else
-                                            <a href="" class="btn btn-warning btn-sm me-2">Pending</a>
+                                            <a href="{{ route('tasks.done', $task->id) }}"
+                                                class="btn btn-success btn-sm me-2">Tandai Selesai</a>
                                         @endif
-                                        <a href="" class="btn btn-primary btn-sm me-2">Edit</a>
-                                        <a href="" class="btn btn-danger btn-sm me-2">Hapus</a>
+                                        <a href="{{ route('tasks.edit', $task->id) }}"
+                                            class="btn btn-primary btn-sm me-2">Edit</a>
+                                        <form action="{{ route('tasks.destroy', $task->id) }}" method="POST"
+                                            style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus tugas ini?')">Hapus</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

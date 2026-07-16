@@ -19,7 +19,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
                             <li class="breadcrumb-item" aria-current="page">Daftar Tugas</li>
-                            <li class="breadcrumb-item active" aria-current="page">Buat Tugas</li>
+                            <li class="breadcrumb-item active" aria-current="page">Edit Tugas</li>
                         </ol>
                     </nav>
                 </div>
@@ -33,13 +33,21 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('tasks.store') }}" method="POST">
+
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    <form action="{{ route('tasks.update', $task->id) }}" method="POST">
                         @csrf
+                        @method('PUT')<!-- method untuk mengirimkan permintaan PUT ke route update atau disebut spoofing method -->
                         <!-- Judul Tugas -->
                         <div class="mb-3">
                             <label for="" class="form-label">Judul Tugas</label>
                             <input type="text" class="form-control @error('title') is-invalid @enderror" name="title"
-                                value="{{ old('title') }}" required>
+                                value="{{ old('title', $task->title) }}" required>
                             @error('title')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -52,7 +60,7 @@
                                 required>
                                 <option value="">Pilih Karyawan</option>
                                 @foreach ($employees as $employee)
-                                    <option value="{{ $employee->id }}" @if (old('assigned_to') == $employee->id) selected @endif>
+                                    <option value="{{ $employee->id }}" @if (old('assigned_to', $task->assigned_to) == $employee->id) selected @endif>
                                         {{ $employee->fullname }}
                                     </option>
                                 @endforeach
@@ -65,7 +73,7 @@
                         <!-- Deskripsi Tugas -->
                         <div class="mb-3">
                             <label for="" class="form-label">Deskripsi Tugas</label>
-                            <textarea class="form-control @error('description') is-invalid @enderror" name="description">{{ old('description') }}</textarea>
+                            <textarea class="form-control @error('description') is-invalid @enderror" name="description">{{ old('description', $task->description) }}</textarea>
                             @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -74,8 +82,8 @@
                         <!-- Tenggat Waktu -->
                         <div class="mb-3">
                             <label for="" class="form-label">Tenggat Waktu</label>
-                            <input type="datetime-local" class="form-control date @error('due_date') is-invalid @enderror"
-                                value="{{ @old('due_date') }}" name="due_date" required>
+                            <input type="date" class="form-control date @error('due_date') is-invalid @enderror"
+                                value="{{ @old('due_date', $task->due_date) }}" name="due_date" required>
                             @error('due_date')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -85,18 +93,17 @@
                         <div class="mb-3">
                             <label for="" class="form-label">Status</label>
                             <select class="form-select @error('status') is-invalid @enderror" name="status" id="status">
-                                <option value="">Pilih Status</option>
-                                <option value="pending">Pending</option>
-                                <option value="proses">Proses</option>
+                                <option value="pending" @if (old('status', $task->status) == 'pending') selected @endif>Pending</option>
+                                <option value="proses" @if (old('status', $task->status) == 'proses') selected @endif>Proses</option>
+                                <option value="selesai" @if (old('status', $task->status) == 'selesai') selected @endif>Selesai</option>
                             </select>
                             @error('status')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Perbarui Tugas</button>
                         <a href="{{ route('tasks.index') }}" class="btn btn-secondary">Kembali ke Daftar Tugas</a>
-                    </form>
                 </div>
             </div>
         </section>

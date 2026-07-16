@@ -21,5 +21,16 @@ class Employee extends Model
         'status',
         'salary',
     ];
+
+    // Menentukan relasi dengan model Department dan Role
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
     
 }

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('template/dist/assets/compiled/css/iconly.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/assets/extensions/simple-datatables/style.css') }}">
     <link rel="stylesheet" href="{{ asset('template/dist/assets/extensions/tables-datatable.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 
 <body>
@@ -151,6 +152,35 @@
     <!-- Handle Data Tables -->
     <script src="{{ asset('template/dist/assets/extensions/simple-datatables/umd/simple-datatables.js') }}"></script>
     <script src="{{ asset('template/dist/assets/static/js/pages/simple-datatables.js') }}"></script>
+
+    <!-- Handle Flatpickr -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        let date = flatpickr(".date", {
+            dateFormat: "Y-m-d",
+        });
+
+        let datetimefree = flatpickr(".datetimefree", {
+            dateFormat: "Y-m-d H:i:s",
+        });
+
+        let datetime = flatpickr(".datetime", {
+            minDate: "today",
+            maxDate: new Date().fp_incr(13), // 3 days from now
+            enableTime: true,
+            dateFormat: "Y-m-d H:i:s",
+            minTime: "07:00",
+            maxTime: "21:00"
+        });
+
+        let datetimeleave = flatpickr(".datetimeleave", {
+            minDate: "today",
+            enableTime: true,
+            dateFormat: "Y-m-d H:i:s",
+            minTime: "07:00",
+            maxTime: "21:00"
+        });
+    </script>
 
 </body>
 
