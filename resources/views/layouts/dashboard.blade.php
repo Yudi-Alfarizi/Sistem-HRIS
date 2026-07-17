@@ -26,8 +26,9 @@
                 <div class="sidebar-header position-relative">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="logo">
-                            <a href="index.html"><img src="{{ asset('template/dist/assets/compiled/svg/logo.svg') }}"
-                                    alt="Logo" srcset=""></a>
+                            <a href="{{ url('/') }}"><img
+                                    src="{{ asset('template/dist/assets/compiled/svg/logo.svg') }}" alt="Logo"
+                                    srcset=""></a>
                         </div>
                         <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -68,56 +69,91 @@
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
-                        <li class="sidebar-item active ">
-                            <a href="{{ route('dashboard') }}" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
+                        @if (session('role') === 'HR')
+                            <li class="sidebar-item active ">
+                                <a href="{{ url('/dashboard') }}" class='sidebar-link'>
+                                    <i class="bi bi-grid-fill"></i>
+                                    <span>Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="{{ url('/tasks') }}" class='sidebar-link'>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <span>Daftar Tugas</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="{{ url('/employees') }}" class='sidebar-link'>
+                                    <i class="bi bi-people-fill"></i>
+                                    <span>Karyawan</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="{{ url('/departments') }}" class='sidebar-link'>
+                                    <i class="bi bi-briefcase-fill"></i>
+                                    <span>Departemen</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="{{ url('/roles') }}" class='sidebar-link'>
+                                    <i class="bi bi-tags-fill"></i>
+                                    <span>Peran</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="{{ url('/presences') }}" class='sidebar-link'>
+                                    <i class="bi bi-table"></i>
+                                    <span>Kehadiran</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="{{ url('/payrolls') }}" class='sidebar-link'>
+                                    <i class="bi bi-wallet2"></i>
+                                    <span>Daftar Gaji</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="{{ url('/leave-requests') }}" class='sidebar-link'>
+                                    <i class="bi bi-calendar-check"></i>
+                                    <span>Permohonan Cuti</span>
+                                </a>
+                            </li>
+                        @endif
+                        <!-- Jika role adalah Selain HR, tampilkan menu berikut -->
+                        @if (session('role') !== 'HR')
+                            <li class="sidebar-item active ">
+                                <a href="{{ url('/dashboard') }}" class='sidebar-link'>
+                                    <i class="bi bi-grid-fill"></i>
+                                    <span>Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="{{ url('/tasks') }}" class='sidebar-link'>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <span>Daftar Tugas</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="{{ url('/presences') }}" class='sidebar-link'>
+                                    <i class="bi bi-table"></i>
+                                    <span>Kehadiran</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="{{ url('/payrolls') }}" class='sidebar-link'>
+                                    <i class="bi bi-wallet2"></i>
+                                    <span>Daftar Gaji</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="{{ url('/leave-requests') }}" class='sidebar-link'>
+                                    <i class="bi bi-calendar-check"></i>
+                                    <span>Permohonan Cuti</span>
+                                </a>
+                            </li>
+                        @endif
                         <li class="sidebar-item">
-                            <a href="{{ route('tasks.index') }}" class='sidebar-link'>
-                                <i class="bi bi-check-circle-fill"></i>
-                                <span>Daftar Tugas</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="index.html" class='sidebar-link'>
-                                <i class="bi bi-people-fill"></i>
-                                <span>Karyawan</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="index.html" class='sidebar-link'>
-                                <i class="bi bi-briefcase-fill"></i>
-                                <span>Departemen</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="index.html" class='sidebar-link'>
-                                <i class="bi bi-tags-fill"></i>
-                                <span>Peran</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="index.html" class='sidebar-link'>
-                                <i class="bi bi-table"></i>
-                                <span>Kehadiran</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="index.html" class='sidebar-link'>
-                                <i class="bi bi-wallet2"></i>
-                                <span>Daftar Gaji</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="index.html" class='sidebar-link'>
-                                <i class="bi bi-calendar-check"></i>
-                                <span>Permohonan Cuti</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="index.html" class='sidebar-link'>
+                            <a href="{{ url('/logout') }}" class='sidebar-link'>
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Keluar</span>
                             </a>

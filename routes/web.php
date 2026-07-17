@@ -9,34 +9,48 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\LeaveRequestController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// Route Middleware untuk memeriksa peran pengguna
+Route::middleware(['auth'])->group(function () {
 
-// Route untuk resource controller EmployeeController
-Route::resource('/employees', EmployeeController::class);
+    // Route untuk halaman dashboard 
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(['role:*']);
 
-// Route untuk resource controller DepartmentController
-Route::resource('/departments', DepartmentController::class);
+    // Route untuk resource controller EmployeeController & middleware hanya untuk role HR yang bisa mengakses halaman ini
+    Route::resource('/employees', EmployeeController::class) ->middleware(['role:HR']);
 
-// Route untuk resource controller RoleController
-Route::resource('/roles', RoleController::class);
+    // Route untuk resource controller DepartmentController & middleware hanya untuk role HR yang bisa mengakses halaman ini
+    Route::resource('/departments', DepartmentController::class) ->middleware(['role:HR']);
 
-// Route untuk resource controller PayrollController
-Route::resource('/payrolls', PayrollController::class);
+    // Route untuk resource controller RoleController & middleware hanya untuk role HR yang bisa mengakses halaman ini
+    Route::resource('/roles', RoleController::class) ->middleware(['role:HR']);
 
-// Route untuk resource controller PresenceController
-Route::resource('/presences', PresenceController::class);
+    // Route untuk resource controller PayrollController & middleware semua role bisa mengakses halaman ini
+    Route::resource('/payrolls', PayrollController::class) ->middleware(['role:*']);
 
-// Route untuk resource controller TaskController
-Route::resource('/tasks', TaskController::class);
-Route::get('/tasks/done/{id}', [TaskController::class, 'done'])->name('tasks.done');
-Route::get('/tasks/pending/{id}', [TaskController::class, 'pending'])->name('tasks.pending');
-Route::get('/tasks/in-progress/{id}', [TaskController::class, 'inProgress'])->name('tasks.in-progress');
+    // Route untuk resource controller LeaveRequestController & middleware semua role bisa mengakses halaman ini
+    Route::resource('/leave-requests', LeaveRequestController::class)->middleware(['role:*']);
+    // Route untuk mengonfirmasi dan menolak permintaan cuti dengan middleware hanya untuk role HR
+    Route::get('/leave-requests/confirm/{id}', [LeaveRequestController::class, 'confirm'])->name('leave-requests.confirm')->middleware(['role:HR']);
+    Route::get('/leave-requests/reject/{id}', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject')->middleware(['role:HR']);
 
+    // Route untuk resource controller PresenceController & middleware semua role bisa mengakses halaman ini
+    Route::resource('/presences', PresenceController::class)->middleware(['role:*']);
+
+    // Route untuk resource controller TaskController
+    Route::resource('/tasks', TaskController::class)->middleware(['role:*']);
+    Route::get('/tasks/done/{id}', [TaskController::class, 'done'])->name('tasks.done')->middleware(['role:*']);
+    Route::get('/tasks/pending/{id}', [TaskController::class, 'pending'])->name('tasks.pending')->middleware(['role:*']);
+    Route::get('/tasks/in-progress/{id}', [TaskController::class, 'inProgress'])->name('tasks.in-progress')->middleware(['role:*']);
+
+});
+
+// Route untuk halaman profil pengguna ( bawaan dari Laravel Breeze )
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

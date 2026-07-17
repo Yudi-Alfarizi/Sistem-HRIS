@@ -37,7 +37,7 @@
                         @csrf
                         <div class="mb-3">
                             <label for="" class="form-label">Karyawan</label>
-                            <select type="text" class="form-control" name="employee_id" required>
+                            <select type="text" class="form-select" name="employee_id" required>
                                 <option value="">Pilih Karyawan</option>
                                 @foreach ($employees as $employee)
                                     <option value="{{ $employee->id }}">{{ $employee->fullname }}</option>

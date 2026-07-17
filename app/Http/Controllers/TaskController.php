@@ -11,11 +11,14 @@ class TaskController extends Controller
     // Menampilkan daftar tugas
     public function index()
     {
-        $tasks = Task::all();
+        if (session('role') == 'HR') {
+            $tasks = Task::all();
+        } else {
+            $tasks = Task::where('assigned_to', session('employee_id'))->get();
+        }
         
         return view('tasks.index', compact('tasks'));
     }
-
     // Menampilkan detail tugas
     public function show(Task $task)
     {

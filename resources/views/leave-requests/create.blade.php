@@ -11,15 +11,15 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Daftar Gaji</h3>
-                    <p class="text-subtitle text-muted">Daftar semua gaji yang telah dibuat</p>
+                    <h3>Daftar Permohonan Cuti</h3>
+                    <p class="text-subtitle text-muted">Daftar semua permohonan cuti yang telah dibuat</p>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                            <li class="breadcrumb-item" aria-current="page">Daftar Gaji</li>
-                            <li class="breadcrumb-item active" aria-current="page">Buat Daftar Gaji</li>
+                            <li class="breadcrumb-item" aria-current="page">Daftar Cuti</li>
+                            <li class="breadcrumb-item active" aria-current="page">Buat Permohonan Cuti</li>
                         </ol>
                     </nav>
                 </div>
@@ -29,7 +29,7 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">
-                        Formulir Data Gaji
+                        Buat Daftar Permohonan Cuti
                     </h5>
                 </div>
                 <div class="card-body">
@@ -42,7 +42,7 @@
                             </ul>
                         </div>
                     @endif
-                    <form action="{{ route('payrolls.store') }}" method="POST">
+                    <form action="{{ route('leave-requests.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label for="" class="form-label">Karyawan</label>
@@ -57,36 +57,34 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label">Gaji Pokok</label>
-                            <input type="number" class="form-control" name="salary" required>
-                            @error('salary')
+                            <label for="" class="form-label">Jenis Cuti</label>
+                            <select type="text" class="form-select" name="leave_type" required>
+                                <option value="">Pilih Jenis Cuti</option>
+                                <option value="Cuti Tahunan">Cuti Tahunan</option>
+                                <option value="Cuti Sakit">Cuti Sakit</option>
+                                <option value="Cuti Melahirkan">Cuti Melahirkan</option>
+                            </select>
+                            @error('leave_type')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label">Bonus</label>
-                            <input type="number" class="form-control" name="bonuses" required>
-                            @error('bonuses')
+                            <label for="" class="form-label">Tanggal Mulai</label>
+                            <input type="date" class="form-control date" name="start_date" required>
+                            @error('start_date')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label">Potongan</label>
-                            <input type="number" class="form-control" name="deductions" required>
-                            @error('deductions')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Tanggal Pembayaran</label>
-                            <input type="text" class="form-control date" name="pay_date" required>
-                            @error('pay_date')
+                            <label for="" class="form-label">Tanggal Selesai</label>
+                            <input type="date" class="form-control date" name="end_date" required>
+                            @error('end_date')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <button type="submit" class="btn btn-primary">Simpan</button>
-                        <a href="{{ route('payrolls.index') }}" class="btn btn-secondary">Kembali ke Daftar
-                            Gaji</a>
+                        <a href="{{ route('leave-requests.index') }}" class="btn btn-secondary">Kembali ke Daftar
+                            Cuti</a>
                     </form>
                 </div>
             </div>

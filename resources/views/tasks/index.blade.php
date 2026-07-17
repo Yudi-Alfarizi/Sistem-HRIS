@@ -34,7 +34,9 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex">
-                        <a href="{{ route('tasks.create') }}" class="btn btn-primary mb-3 ms-auto">Tambah Tugas</a>
+                        @if (session('role') == 'HR')
+                            <a href="{{ route('tasks.create') }}" class="btn btn-primary mb-3 ms-auto">Tambah Tugas</a>
+                        @endif
                     </div>
                     @if (session('success'))
                         <div class="alert alert-success">
@@ -79,15 +81,17 @@
                                             <a href="{{ route('tasks.done', $task->id) }}"
                                                 class="btn btn-success btn-sm me-2">Tandai Selesai</a>
                                         @endif
-                                        <a href="{{ route('tasks.edit', $task->id) }}"
-                                            class="btn btn-primary btn-sm me-2">Edit</a>
-                                        <form action="{{ route('tasks.destroy', $task->id) }}" method="POST"
-                                            style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus tugas ini?')">Hapus</button>
-                                        </form>
+                                        @if (session('role') == 'HR')
+                                            <a href="{{ route('tasks.edit', $task->id) }}"
+                                                class="btn btn-primary btn-sm me-2">Edit</a>
+                                            <form action="{{ route('tasks.destroy', $task->id) }}" method="POST"
+                                                style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus tugas ini?')">Hapus</button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
