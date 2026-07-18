@@ -34,8 +34,10 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex">
-                        <a href="{{ route('payrolls.create') }}" class="btn btn-primary mb-3 ms-auto">Tambah
-                            Daftar Gaji</a>
+                        @if (session('role') === 'HR')
+                            <a href="{{ route('payrolls.create') }}" class="btn btn-primary mb-3 ms-auto">Tambah
+                                Daftar Gaji</a>
+                        @endif
                     </div>
                     @if (session('success'))
                         <div class="alert alert-success">
@@ -67,15 +69,17 @@
                                     <td>
                                         <a href="{{ route('payrolls.show', $payroll->id) }}"
                                             class="btn btn-info btn-sm me-2">Lihat Slip Gaji</a>
-                                        <a href="{{ route('payrolls.edit', $payroll->id) }}"
-                                            class="btn btn-primary btn-sm me-2">Edit</a>
-                                        <form action="{{ route('payrolls.destroy', $payroll->id) }}" method="POST"
-                                            style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus kehadiran ini?')">Hapus</button>
-                                        </form>
+                                        @if (session('role') === 'HR')
+                                            <a href="{{ route('payrolls.edit', $payroll->id) }}"
+                                                class="btn btn-primary btn-sm me-2">Edit</a>
+                                            <form action="{{ route('payrolls.destroy', $payroll->id) }}" method="POST"
+                                                style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus kehadiran ini?')">Hapus</button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

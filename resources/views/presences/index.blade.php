@@ -50,7 +50,9 @@
                                 <th>Waktu Pulang</th>
                                 <th>Tanggal</th>
                                 <th>Status</th>
-                                <th>Aksi</th>
+                                @if (session('role') === 'HR')
+                                    <th>Aksi</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -72,15 +74,17 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('presences.edit', $presence->id) }}"
-                                            class="btn btn-primary btn-sm me-2">Edit</a>
-                                        <form action="{{ route('presences.destroy', $presence->id) }}" method="POST"
-                                            style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus kehadiran ini?')">Hapus</button>
-                                        </form>
+                                        @if (session('role') === 'HR')
+                                            <a href="{{ route('presences.edit', $presence->id) }}"
+                                                class="btn btn-primary btn-sm me-2">Edit</a>
+                                            <form action="{{ route('presences.destroy', $presence->id) }}" method="POST"
+                                                style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus kehadiran ini?')">Hapus</button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

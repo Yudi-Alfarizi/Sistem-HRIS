@@ -50,7 +50,9 @@
                                 <th>Tanggal Mulai</th>
                                 <th>Tanggal Selesai</th>
                                 <th>Status</th>
-                                <th>Aksi</th>
+                                @if (session('role') === 'HR')
+                                    <th>Aksi</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -72,22 +74,24 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($leaveRequest->status === 'pending' || $leaveRequest->status === 'ditolak')
-                                            <a href="{{ route('leave-requests.confirm', $leaveRequest->id) }}"
-                                                class="btn btn-success btn-sm me-2">Setujui</a>
-                                        @else
-                                            <a href="{{ route('leave-requests.reject', $leaveRequest->id) }}"
-                                                class="btn btn-danger btn-sm me-2">Tolak</a>
+                                        @if (session('role') === 'HR')
+                                            @if ($leaveRequest->status === 'pending' || $leaveRequest->status === 'ditolak')
+                                                <a href="{{ route('leave-requests.confirm', $leaveRequest->id) }}"
+                                                    class="btn btn-success btn-sm me-2">Setujui</a>
+                                            @else
+                                                <a href="{{ route('leave-requests.reject', $leaveRequest->id) }}"
+                                                    class="btn btn-danger btn-sm me-2">Tolak</a>
+                                            @endif
+                                            <a href="{{ route('leave-requests.edit', $leaveRequest->id) }}"
+                                                class="btn btn-primary btn-sm me-2">Edit</a>
+                                            <form action="{{ route('leave-requests.destroy', $leaveRequest->id) }}"
+                                                method="POST" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus cuti ini?')">Hapus</button>
+                                            </form>
                                         @endif
-                                        <a href="{{ route('leave-requests.edit', $leaveRequest->id) }}"
-                                            class="btn btn-primary btn-sm me-2">Edit</a>
-                                        <form action="{{ route('leave-requests.destroy', $leaveRequest->id) }}"
-                                            method="POST" style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus cuti ini?')">Hapus</button>
-                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

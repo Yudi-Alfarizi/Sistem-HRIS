@@ -12,7 +12,7 @@ use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\LeaveRequestController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 // Route Middleware untuk memeriksa peran pengguna
@@ -20,6 +20,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Route untuk halaman dashboard 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(['role:*']);
+    Route::get('/dashboard/presence', [DashboardController::class, 'presence'])->middleware(['role:*']);
 
     // Route untuk resource controller EmployeeController & middleware hanya untuk role HR yang bisa mengakses halaman ini
     Route::resource('/employees', EmployeeController::class) ->middleware(['role:HR']);

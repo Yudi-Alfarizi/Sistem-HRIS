@@ -44,18 +44,20 @@
                     @endif
                     <form action="{{ route('leave-requests.store') }}" method="POST">
                         @csrf
-                        <div class="mb-3">
-                            <label for="" class="form-label">Karyawan</label>
-                            <select type="text" class="form-select" name="employee_id" required>
-                                <option value="">Pilih Karyawan</option>
-                                @foreach ($employees as $employee)
-                                    <option value="{{ $employee->id }}">{{ $employee->fullname }}</option>
-                                @endforeach
-                            </select>
-                            @error('employee_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        @if (session('role') === 'HR')
+                            <div class="mb-3">
+                                <label for="" class="form-label">Karyawan</label>
+                                <select type="text" class="form-select" name="employee_id" required>
+                                    <option value="">Pilih Karyawan</option>
+                                    @foreach ($employees as $employee)
+                                        <option value="{{ $employee->id }}">{{ $employee->fullname }}</option>
+                                    @endforeach
+                                </select>
+                                @error('employee_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        @endif
                         <div class="mb-3">
                             <label for="" class="form-label">Jenis Cuti</label>
                             <select type="text" class="form-select" name="leave_type" required>
