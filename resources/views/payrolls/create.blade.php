@@ -18,7 +18,8 @@
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                            <li class="breadcrumb-item" aria-current="page">Daftar Gaji</li>
+                            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('payrolls.index') }}">Daftar
+                                    Gaji</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Buat Daftar Gaji</li>
                         </ol>
                     </nav>

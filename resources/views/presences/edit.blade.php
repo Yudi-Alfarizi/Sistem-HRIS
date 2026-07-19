@@ -18,7 +18,8 @@
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                            <li class="breadcrumb-item" aria-current="page">Daftar Kehadiran</li>
+                            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('presences.index') }}">Daftar
+                                    Kehadiran</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Edit Kehadiran</li>
                         </ol>
                     </nav>

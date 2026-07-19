@@ -20,6 +20,7 @@ class CheckRole
         $employee = Employee::find($employeeID);
         $request->session()->put('role', $employee->role->title);
         $request->session()->put('employee_id', $employee->id);
+        $request->session()->put('department_id', $employee->department_id);
 
         // Jika role yang diizinkan adalah '*' atau 'all', maka izinkan akses untuk semua role
         if (in_array('*', $roles, true) || in_array('all', $roles, true)) {

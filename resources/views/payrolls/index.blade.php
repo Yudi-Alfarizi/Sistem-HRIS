@@ -61,8 +61,8 @@
                                 <tr>
                                     <td>{{ $payroll->employee->fullname }}</td>
                                     <td>{{ 'Rp ' . number_format($payroll->salary) }}</td>
-                                    <td>{{ 'Rp ' . number_format($payroll->deductions) }}</td>
                                     <td>{{ 'Rp ' . number_format($payroll->bonuses) }}</td>
+                                    <td>{{ 'Rp ' . number_format($payroll->deductions) }}</td>
                                     <td>{{ 'Rp ' . number_format($payroll->net_salary) }}</td>
                                     <td>{{ \Carbon\Carbon::parse($payroll->pay_date)->locale('id')->translatedFormat('d F Y') }}
                                     </td>

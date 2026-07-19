@@ -18,7 +18,8 @@
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                            <li class="breadcrumb-item" aria-current="page">Daftar Tugas</li>
+                            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('tasks.index') }}">Daftar
+                                    Tugas</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Buat Tugas</li>
                         </ol>
                     </nav>
@@ -74,7 +75,7 @@
                         <!-- Tenggat Waktu -->
                         <div class="mb-3">
                             <label for="" class="form-label">Tenggat Waktu</label>
-                            <input type="datetime-local" class="form-control date @error('due_date') is-invalid @enderror"
+                            <input type="date" class="form-control date @error('due_date') is-invalid @enderror"
                                 value="{{ @old('due_date') }}" name="due_date" required>
                             @error('due_date')
                                 <div class="invalid-feedback">{{ $message }}</div>
