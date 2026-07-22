@@ -52,6 +52,22 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <!-- Password Akun Karyawan -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password Awal Akun</label>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                name="password" required>
+                            <small class="text-muted">Password minimal 8 karakter.</small>
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Konfirmasi Password -->
+                        <div class="mb-3">
+                            <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+                            <input type="password" class="form-control" name="password_confirmation" required>
+                        </div>
                         <!-- Nomor Telepon -->
                         <div class="mb-3">
                             <label for="" class="form-label">Nomor Telepon</label>

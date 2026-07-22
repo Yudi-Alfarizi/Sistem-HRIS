@@ -103,8 +103,8 @@
                                 <iframe width="500" height="300" frameborder="0" scrolling="no" marginheight="0"
                                     marginwidth="0" src=""></iframe>
                             </div>
-                            <button type="submit" class="btn btn-primary" id="btn-present" disabled>Dapatkan
-                                Lokasi</button>
+                            <button type="submit" class="btn btn-primary" id="btn-present" disabled>Rekam
+                                Kehadiran</button>
                         </form>
                     @endif
                 </div>

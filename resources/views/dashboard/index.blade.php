@@ -116,9 +116,15 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar avatar-md">
                                                         <img
-                                                            src="https://ui-avatars.com/api/?name={{ $task->employee->fullname }}&background=random&size=128" />
+                                                            src="https://ui-avatars.com/api/?name={{ $task->employee?->fullname ?? 'Karyawan Dihapus' }}&background=random&size=128" />
                                                     </div>
-                                                    <p class="font-bold ms-3 mb-0">{{ $task->employee->fullname }}</p>
+                                                    <p class="font-bold ms-3 mb-0 d-flex align-items-center">
+                                                        {{ $task->employee?->fullname ?? 'Karyawan Dihapus' }}
+                                                        @if ($task->employee?->trashed())
+                                                            <span class="badge bg-secondary ms-2"
+                                                                style="font-size: 0.65rem;">Nonaktif</span>
+                                                        @endif
+                                                    </p>
                                                 </div>
                                             </td>
                                             <td class="col-auto">

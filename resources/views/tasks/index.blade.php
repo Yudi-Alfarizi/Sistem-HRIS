@@ -57,7 +57,13 @@
                             @foreach ($tasks as $task)
                                 <tr>
                                     <td>{{ $task->title }}</td>
-                                    <td>{{ $task->employee->fullname ?? 'Tidak ada karyawan yang ditugaskan' }}</td>
+                                    <td>
+                                        {{ $task->employee?->fullname ?? 'Tidak ada karyawan yang ditugaskan' }}
+                                        @if ($task->employee?->trashed())
+                                            <span class="badge bg-secondary ms-2"
+                                                style="font-size: 0.65rem;">Nonaktif</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $task->due_date }}</td>
                                     <td>
                                         @if ($task->status == 'pending')
@@ -73,7 +79,7 @@
                                             class="btn btn-info btn-sm me-2">Lihat</a>
                                         @if ($task->status == 'pending')
                                             <a href="{{ route('tasks.in-progress', $task->id) }}"
-                                                class="btn btn-info btn-sm me-2">Tandai Proses</a>
+                                                class="btn btn-secondary btn-sm me-2">Tandai Proses</a>
                                         @elseif ($task->status == 'selesai')
                                             <a href="{{ route('tasks.pending', $task->id) }}"
                                                 class="btn btn-warning btn-sm me-2">Tandai Pending</a>

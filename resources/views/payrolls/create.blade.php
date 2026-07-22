@@ -47,10 +47,11 @@
                         @csrf
                         <div class="mb-3">
                             <label for="" class="form-label">Karyawan</label>
-                            <select type="text" class="form-select" name="employee_id" required>
-                                <option value="">Pilih Karyawan</option>
+                            <select type="text" class="form-select" name="employee_id" id="employee_select" required>
+                                <option value="" data-salary="">Pilih Karyawan</option>
                                 @foreach ($employees as $employee)
-                                    <option value="{{ $employee->id }}">{{ $employee->fullname }}</option>
+                                    <option value="{{ $employee->id }}" data-salary="{{ $employee->salary }}">
+                                        {{ $employee->fullname }}</option>
                                 @endforeach
                             </select>
                             @error('employee_id')
@@ -59,7 +60,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Gaji Pokok</label>
-                            <input type="number" class="form-control" name="salary" required>
+                            <input type="number" class="form-control" name="salary" id="salary_input" required readonly>
                             @error('salary')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -93,4 +94,21 @@
             </div>
         </section>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const employeeSelect = document.getElementById('employee_select');
+            const salaryInput = document.getElementById('salary_input');
+
+            employeeSelect.addEventListener('change', function() {
+                // Ambil opsi (option) yang sedang dipilih pengguna
+                const selectedOption = this.options[this.selectedIndex];
+
+                // Ambil nilai dari atribut data-salary
+                const salary = selectedOption.getAttribute('data-salary');
+
+                // Jika ada nilai salary, masukkan ke input form, jika tidak kosongkan
+                salaryInput.value = salary ? salary : '';
+            });
+        });
+    </script>
 @endsection

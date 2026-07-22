@@ -71,8 +71,29 @@
                                     class="bi bi-x bi-middle"></i></a>
                         </div>
                     </div>
+                    <!-- 1. VARIASI KARTU PROFIL USER -->
+                    <div class="user-profile-card mt-4 p-3 rounded-3 d-flex align-items-center"
+                        style="background-color: rgba(67, 94, 190, 0.06); border: 1px solid rgba(67, 94, 190, 0.12);">
+                        <div class="avatar avatar-lg shadow-sm flex-shrink-0">
+                            <!-- Ukuran avatar sedikit dikecilkan menjadi 45px agar pas di dalam kartu -->
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold fs-5"
+                                style="width: 35px; height: 35px;">
+                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                            </div>
+                        </div>
+                        <div class="ms-3 overflow-hidden">
+                            <h5 class="mb-0 font-bold text-body text-truncate" title="{{ auth()->user()->name }}"
+                                style="max-width: 140px; font-size: 0.90rem;">
+                                {{ auth()->user()->name }}
+                            </h5>
+                            <h6 class="text-muted mb-0 text-sm mt-1">
+                                {{ session('role') ?? 'Karyawan' }}
+                            </h6>
+                        </div>
+                    </div>
                 </div>
-                <div class="sidebar-menu">
+                <hr class="mx-4 mt-0 mb-0" style="border-color: var(--bs-border-color); opacity: 1;">
+                <div class="sidebar-menu mb-10">
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
                         @if (session('role') === 'HR')
