@@ -55,8 +55,15 @@
                         <!-- Password Akun Karyawan -->
                         <div class="mb-3">
                             <label for="password" class="form-label">Password Awal Akun</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                name="password" required>
+                            <div class="position-relative">
+                                <input type="password" class="form-control pe-5 @error('password') is-invalid @enderror"
+                                    name="password" id="password" required>
+                                <button type="button"
+                                    class="btn border-0 position-absolute top-50 end-0 translate-middle-y toggle-password"
+                                    data-target="password" style="z-index: 10; color: #6c757d;">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
+                            </div>
                             <small class="text-muted">Password minimal 8 karakter.</small>
                             @error('password')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -66,7 +73,16 @@
                         <!-- Konfirmasi Password -->
                         <div class="mb-3">
                             <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                            <input type="password" class="form-control" name="password_confirmation" required>
+                            <div class="position-relative">
+                                <input type="password" class="form-control pe-5" name="password_confirmation"
+                                    id="password_confirmation" required>
+
+                                <button type="button"
+                                    class="btn border-0 position-absolute top-50 end-0 translate-middle-y toggle-password"
+                                    data-target="password_confirmation" style="z-index: 10; color: #6c757d;">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
+                            </div>
                         </div>
                         <!-- Nomor Telepon -->
                         <div class="mb-3">
@@ -148,10 +164,36 @@
                             @enderror
                         </div>
                         <button type="submit" class="btn btn-primary">Simpan</button>
-                        <a href="{{ route('employees.index') }}" class="btn btn-secondary">Kembali ke Daftar Karyawan</a>
+                        <a href="{{ route('employees.index') }}" class="btn btn-secondary">Kembali ke Daftar
+                            Karyawan</a>
                     </form>
                 </div>
             </div>
         </section>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButtons = document.querySelectorAll('.toggle-password');
+
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Cari input berdasarkan ID di data-target
+                    const targetId = this.getAttribute('data-target');
+                    const inputField = document.getElementById(targetId);
+                    const icon = this.querySelector('i');
+
+                    // Ubah tipe input dan icon
+                    if (inputField.type === 'password') {
+                        inputField.type = 'text';
+                        icon.classList.remove('bi-eye-slash');
+                        icon.classList.add('bi-eye');
+                    } else {
+                        inputField.type = 'password';
+                        icon.classList.remove('bi-eye');
+                        icon.classList.add('bi-eye-slash');
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

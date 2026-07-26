@@ -59,6 +59,7 @@ class PayrollController extends Controller
             'pay_date' => 'required|date',
         ]);
 
+        // Menghitung gaji bersih (net salary) berdasarkan inputan user
         $netSalary = $request->input('salary') + $request->input('bonuses') - $request->input('deductions');
         $request->merge(['net_salary' => $netSalary]);
         $payroll->update($request->all());
