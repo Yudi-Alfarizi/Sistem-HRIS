@@ -9,12 +9,12 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    // menambahkan kolom latitude dan longitude pada tabel presences untuk menyimpan lokasi check-in dan check-out
     public function up(): void
     {
         Schema::table('presences', function (Blueprint $table) {
-            $table->string('latitude', 10, 7)->nullable()->after('check_out');
-            $table->string('longitude', 10, 7)->nullable()->after('latitude');
+            // Ubah menjadi string tanpa batasan ketat agar muat menampung koordinat GPS
+            $table->string('latitude')->nullable()->change();
+            $table->string('longitude')->nullable()->change();
         });
     }
 
@@ -23,9 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Mengembalikan kolom latitude dan longitude ke tipe data sebelumnya jika terjadi rollback
         Schema::table('presences', function (Blueprint $table) {
-            $table->dropColumn('latitude');
-            $table->dropColumn('longitude');
+            $table->string('latitude', 10, 7)->nullable()->change();
+            $table->string('longitude', 10, 7)->nullable()->change();
         });
     }
 };

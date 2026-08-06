@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Payroll extends Model
 {
+    // ORM Eloquent untuk model Task
+    // Fitur HasFactory dan SoftDeletes untuk pembuatan data palsu dan penghapusan data secara soft delete
     use HasFactory, SoftDeletes;
     protected $table = 'payroll';
-
+    // Fields yang boleh diisi (mass assignable)
     protected $fillable = [
         'employee_id',
         'salary',

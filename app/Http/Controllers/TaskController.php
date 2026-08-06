@@ -27,7 +27,7 @@ class TaskController extends Controller
         return session('department_id');
     }
 
-    // Memeriksa apakah pengguna saat ini memiliki izin untuk mengelola tugas
+    // Periksa apakah user saat ini memiliki izin untuk mengelola tugas
     private function canManageTasks(): bool
     {
         return in_array($this->currentRole(), ['HR', 'Manager'], true);
@@ -45,7 +45,7 @@ class TaskController extends Controller
         return $query->orderBy('fullname');
     }
 
-    // Memeriksa apakah pengguna saat ini dapat melihat tugas tertentu
+    // Periksa apakah pengguna saat ini dapat melihat tugas tertentu
     private function canViewTask(Task $task): bool
     {
         $task->loadMissing('employee');
@@ -87,7 +87,7 @@ class TaskController extends Controller
     // Menampilkan daftar tugas
     public function index()
     {
-        $query = Task::with('employee.department');
+        $query = Task::with('employee.department'); // teknik eager loading untuk mengurangi jumlah query ke database
 
         if ($this->currentRole() === 'HR') {
             $tasks = $query->get();
@@ -99,7 +99,7 @@ class TaskController extends Controller
             $tasks = $query->where('assigned_to', $this->currentEmployeeId())->get();
         }
         
-        return view('tasks.index', compact('tasks'));
+        return view('tasks.index', compact('tasks')); 
     }
     // Menampilkan detail tugas
     public function show(Task $task)
@@ -140,7 +140,7 @@ class TaskController extends Controller
         return view('tasks.edit', compact('task', 'employees'));
     }
 
-    // Memperbarui tugas yang ada di database
+    // Update tugas yang ada di database
     public function update(Request $request, Task $task)
     {
         abort_unless($this->canManageTasks() && $this->canViewTask($task), 403);

@@ -42,6 +42,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Route untuk resource controller PresenceController & middleware semua role bisa mengakses halaman ini
     Route::resource('/presences', PresenceController::class)->middleware(['role:*']);
+    Route::put('/presences/checkout/{id}', [PresenceController::class, 'checkout'])
+     ->name('presences.checkout')->middleware(['role:*']);
 
     // Route untuk resource controller TaskController
     Route::resource('/tasks', TaskController::class)->middleware(['role:*']);

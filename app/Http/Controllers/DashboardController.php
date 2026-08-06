@@ -22,6 +22,7 @@ class DashboardController extends Controller
         return view('dashboard.index', compact('employee', 'department', 'payroll', 'presence', 'tasks'));
     }
 
+    // Fungsi untuk mengambil data kehadiran dari database dan mengembalikannya dalam format JSON
     public function presence(){
         $data = Presence::where('status', 'hadir')
                 ->selectRaw('MONTH(date) as month, YEAR(date) as year, COUNT(*) as total_present')

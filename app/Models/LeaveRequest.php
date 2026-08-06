@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LeaveRequest extends Model
 {
+    // ORM Eloquent untuk model Task
+    // Fitur HasFactory dan SoftDeletes untuk pembuatan data palsu dan penghapusan data secara soft delete
     use HasFactory, SoftDeletes;
-
+    // Fields yang boleh diisi (mass assignable)
     protected $fillable = [
         'employee_id',
         'leave_type',

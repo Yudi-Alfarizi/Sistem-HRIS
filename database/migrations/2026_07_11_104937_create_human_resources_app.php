@@ -9,6 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    // Membuat tabel-tabel yang diperlukan untuk aplikasi Human Resources
     public function up(): void
     {
         Schema::create('departments', function (Blueprint $table) {
@@ -27,7 +28,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
+        // membuat tabel employees, posisi harus setelah tabel departments dan roles karena ada foreign key
          Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->string('fullname');
@@ -93,6 +94,7 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
+    // Menghapus tabel-tabel yang telah dibuat jika terjadi rollback
     public function down(): void
     {
         Schema::dropIfExists('employees');

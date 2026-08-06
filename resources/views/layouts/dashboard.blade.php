@@ -71,7 +71,6 @@
                                     class="bi bi-x bi-middle"></i></a>
                         </div>
                     </div>
-                    <!-- 1. VARIASI KARTU PROFIL USER -->
                     <div class="user-profile-card mt-4 p-3 rounded-3 d-flex align-items-center"
                         style="background-color: rgba(67, 94, 190, 0.06); border: 1px solid rgba(67, 94, 190, 0.12);">
                         <div class="avatar avatar-lg shadow-sm flex-shrink-0">
@@ -146,7 +145,7 @@
                                 </a>
                             </li>
                         @endif
-                        <!-- Jika role adalah Selain HR, tampilkan menu berikut -->
+                        <!-- Jika role Selain HR, tampilkan menu berikut -->
                         @if (session('role') !== 'HR')
                             <li class="sidebar-item {{ request()->is('dashboard') ? 'active' : '' }}">
                                 <a href="{{ url('/dashboard') }}" class='sidebar-link'>
@@ -189,7 +188,9 @@
                 </div>
             </div>
         </div>
+        {{-- Main Content --}}
         <div id="main">
+            {{-- Isi Konten --}}
             @yield('content')
 
             <footer>
@@ -245,7 +246,9 @@
             maxTime: "21:00"
         });
 
-        var ctxBar = document.getElementById("presence").getContext('2d');
+        // Chart.js untuk menampilkan chart kehadiran
+        var ctxBar = document.getElementById("presence").getContext(
+        '2d'); // Mengambil elemen canvas dengan id "presence" untuk menampilkan chart
         var myBar = new Chart(ctxBar, {
             type: 'bar',
             data: {
@@ -273,6 +276,7 @@
             }
         });
 
+        // Fungsi untuk mengambil data kehadiran dari controller dashboard dan memperbarui chart
         function updateData() {
             fetch('/dashboard/presence')
                 .then(response => response.json())
@@ -286,7 +290,7 @@
                     myBar.update();
                 });
         }
-        updateData();
+        updateData(); // Panggil fungsi updateData saat halaman dimuat untuk menampilkan data awal
     </script>
 </body>
 

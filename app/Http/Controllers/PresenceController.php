@@ -32,7 +32,7 @@ class PresenceController extends Controller
         $request->validate([
             'employee_id' => 'required',
             'check_in' => 'required|date',
-            'check_out' => 'required|date|after_or_equal:check_in',
+            'check_out' => 'nullable|date|after_or_equal:check_in',
             'date' => 'required|date',
             'status' => 'required|string|max:255',
         ]);
@@ -75,6 +75,27 @@ class PresenceController extends Controller
     {
         $presence->delete();
         return redirect()->route('presences.index')->with('success', 'Kehadiran berhasil dihapus.');
+    }
+
+    public function checkout(Request $request, $id)
+    {
+        $presence = Presence::findOrFail($id);
+
+        // Validasi Keamanan: Pastikan milik karyawan sendiri & belum checkout
+        if ($presence->employee_id != session('employee_id') || $presence->check_out != null) {
+            return back()->with('error', 'Aksi tidak valid!');
+        }
+
+        // Melakukan update data absensi
+        $presence->update([
+            'check_out' => Carbon::now()->format('Y-m-d H:i:s'),
+            // Opsi: Memperbarui koordinat lokasi terakhir saat ia pulang
+            'latitude' => $request->latitude, 
+            'longitude' => $request->longitude,
+        ]);
+
+        return redirect()->route('presences.index')
+            ->with('success', 'Berhasil melakukan Check-Out kepulangan!');
     }
 
 }

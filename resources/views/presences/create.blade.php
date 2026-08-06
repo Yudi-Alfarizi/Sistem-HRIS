@@ -85,27 +85,76 @@
                                 Kehadiran</a>
                         </form>
                     @else
-                        <form action="{{ route('presences.store') }}" method="POST">
-                            @csrf
-                            <div class="mb-3">
-                                <b>Note</b> : <i> izinkan akses lokasi pada perangkat Anda untuk merekam kehadiran.
-                                    Pastikan juga koneksi internet Anda stabil.</i>
+                        @php
+                            // Cek apakah karyawan sudah melakukan check-in hari ini
+                            $todayPresence = \App\Models\Presence::where('employee_id', session('employee_id'))
+                                ->where('date', \Carbon\Carbon::now()->format('Y-m-d'))
+                                ->first();
+                        @endphp
+                        @if (!$todayPresence)
+                            <form action="{{ route('presences.store') }}" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                    <b>Note</b> : <i> izinkan akses lokasi pada perangkat Anda untuk merekam kehadiran.
+                                        Pastikan juga koneksi internet Anda stabil.</i>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Lintang</label>
+                                    <input type="text" class="form-control" name="latitude" id="latitude" required
+                                        readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Garis Bujur</label>
+                                    <input type="text" class="form-control" name="longitude" id="longitude" required
+                                        readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <iframe width="100%" height="300" frameborder="0" scrolling="no" marginheight="0"
+                                        marginwidth="0" src=""></iframe>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100" id="btn-present" disabled>Rekam
+                                    Kehadiran (Check-In)</button>
+                            </form>
+                        @elseif(is_null($todayPresence->check_out))
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i> Anda sudah Check-In pada pukul
+                                {{ \Carbon\Carbon::parse($todayPresence->check_in)->format('H:i') }}. Silakan rekam lokasi
+                                kepulangan Anda.
                             </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Lintang</label>
-                                <input type="text" class="form-control" name="latitude" id="latitude" required>
+
+                            <form action="{{ route('presences.checkout', $todayPresence->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')<!-- method untuk mengirimkan permintaan PUT ke route update atau disebut spoofing method -->
+                                <div class="mb-3">
+                                    <b>Note</b> : <i> izinkan akses lokasi pada perangkat Anda untuk merekam kehadiran.
+                                        Pastikan juga koneksi internet Anda stabil.</i>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Lintang</label>
+                                    <input type="text" class="form-control" name="latitude" id="latitude" required
+                                        readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Garis Bujur</label>
+                                    <input type="text" class="form-control" name="longitude" id="longitude" required
+                                        readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <iframe width="100%" height="300" frameborder="0" scrolling="no"
+                                        marginheight="0" marginwidth="0" src=""></iframe>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100" id="btn-present" disabled>Rekam
+                                    Kepulangan (Check-Out)</button>
+                            </form>
+                        @else
+                            <!-- JIKA SUDAH CHECK-IN DAN CHECK-OUT -->
+                            <div class="alert alert-success text-center p-4">
+                                <i class="bi bi-check-circle-fill fs-1"></i><br>
+                                <h5 class="mt-3">Terima kasih!</h5>
+                                <p>Anda sudah menyelesaikan absensi lengkap (Check-In & Check-Out) untuk hari ini.</p>
                             </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Garis Bujur</label>
-                                <input type="text" class="form-control" name="longitude" id="longitude" required>
-                            </div>
-                            <div class="mb-3">
-                                <iframe width="500" height="300" frameborder="0" scrolling="no" marginheight="0"
-                                    marginwidth="0" src=""></iframe>
-                            </div>
-                            <button type="submit" class="btn btn-primary" id="btn-present" disabled>Rekam
-                                Kehadiran</button>
-                        </form>
+                            <a href="/dashboard" class="btn btn-secondary mt-2">Kembali ke Dashboard</a>
+                        @endif
                     @endif
                 </div>
             </div>

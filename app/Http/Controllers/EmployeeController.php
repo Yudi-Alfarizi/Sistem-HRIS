@@ -16,7 +16,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees = Employee::all(); // Mengambil semua data karyawan
-        return view('employees.index', compact('employees'));
+        return view('employees.index', compact('employees')); 
     }
 
     public function create()
@@ -43,7 +43,7 @@ class EmployeeController extends Controller
             'salary' => 'required|numeric|min:0',
         ]);
         
-        DB::beginTransaction();
+        DB::beginTransaction(); // Mulai transaksi database untuk memastikan integritas data
 
         try {
             // Ambil data yg khusus untuk tabel employees
@@ -63,7 +63,7 @@ class EmployeeController extends Controller
                 'email_verified_at' => now(),
             ]);
 
-            DB::commit();
+            DB::commit(); // Commit transaksi database jika semua operasi berhasil
 
             return redirect()->route('employees.index')->with('success', 'Karyawan dan Akun Login berhasil dibuat.');
             
@@ -100,7 +100,7 @@ class EmployeeController extends Controller
             'role_id' => 'required|exists:roles,id', // Validasi untuk memastikan role_id ada di tabel roles
             'status' => 'required|string',
             'salary' => 'required|numeric|min:0',
-            'password' => 'nullable|string|min:8|confirmed',
+            'password' => 'nullable|string|min:8|confirmed', // Password bersifat opsional saat update, jika diisi maka harus sesuai dengan konfirmasi password
         ]);
 
         DB::beginTransaction();
@@ -108,7 +108,7 @@ class EmployeeController extends Controller
         try {
             // A. Update Data Employee
             $employee = Employee::findOrFail($id);
-            $employeeData = $request->except(['password', 'password_confirmation']);
+            $employeeData = $request->except(['password', 'password_confirmation']); // Mengambil semua data kecuali password dan konfirmasi password karena password bersifat opsional saat update sesuai dengan validasi di atas
             $employee->update($employeeData);
 
             // B. Update Data User Login menggunakan ORM
@@ -145,7 +145,9 @@ class EmployeeController extends Controller
             // Hapus Akun User (Login) terlebih dahulu berdasarkan employee_id
             User::where('employee_id', $employee->id)->delete();
             
-            // Hapus data Karyawan
+            // Hapus data Karyawan dan ubah statusnya menjadi 'inactive' sebelum dihapus
+            $employee->status = 'tidak aktif';
+            $employee->save();
             $employee->delete();
             
             DB::commit();

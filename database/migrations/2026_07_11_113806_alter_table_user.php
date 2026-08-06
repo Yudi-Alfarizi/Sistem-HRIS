@@ -9,6 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    // membuat kolom employee_id pada tabel users untuk menghubungkan user dengan employee
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
@@ -19,6 +20,7 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
+    // menghapus kolom employee_id pada tabel users
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {

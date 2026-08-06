@@ -60,8 +60,8 @@
                                     <td>
                                         {{ $task->employee?->fullname ?? 'Tidak ada karyawan yang ditugaskan' }}
                                         @if ($task->employee?->trashed())
-                                            <span class="badge bg-secondary ms-2"
-                                                style="font-size: 0.65rem;">Nonaktif</span>
+                                            <span class="badge bg-secondary ms-2" style="font-size: 0.65rem;">Tidak
+                                                Aktif</span>
                                         @endif
                                     </td>
                                     <td>{{ $task->due_date }}</td>

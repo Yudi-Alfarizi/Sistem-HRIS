@@ -244,7 +244,7 @@
                 display: none !important;
             }
 
-            /* Format warna untuk cetakan grayscale yang tajam */
+            /*  warna untuk cetakan grayscale  */
             .text-success,
             .text-danger,
             .text-primary {

@@ -95,6 +95,7 @@
         </section>
     </div>
     <script>
+        // Fungsi untuk mengisi input form gaji berdasarkan karyawan yang dipilih
         document.addEventListener('DOMContentLoaded', function() {
             const employeeSelect = document.getElementById('employee_select');
             const salaryInput = document.getElementById('salary_input');

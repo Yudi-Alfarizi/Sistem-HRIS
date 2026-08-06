@@ -88,7 +88,7 @@
                         <h4>Kehadiran Terbaru</h4>
                     </div>
                     <div class="card-body">
-                        <canvas id="presence"></canvas>
+                        <canvas id="presence"></canvas> {{-- grafik diambil dari id presence yang ada di file dashboard.blade.php --}}
                     </div>
                 </div>
             </div>
